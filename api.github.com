@@ -55,6 +55,8 @@ https://docs.github.com/zh/rest?apiVersion=2022-11-28
   As you can see, it didn't work. The message says quite clearly that we need authentication. you'll first need an authentication token.
   Use the following template, replacing username with your user name and token with the value of the personal access token you just generated:
   curl -u username:token https://api.github.com/user/repos
+  Let's see an example:
+  curl -u gooditzhu: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 https://api.github.com/user/repos
 
 5. listing repositories using GitHub's search API:
   The search API allows you to search for all kinds of GitHub artifacts using a versatile search syntax that allows for ordering, filtering, paging, and more.
