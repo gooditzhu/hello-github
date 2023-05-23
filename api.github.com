@@ -34,6 +34,9 @@
   "user_search_url": "https://api.github.com/search/users?q={query}{&page,per_page,sort,order}"
 }
 
+https://docs.github.com/en/rest?apiVersion=2022-11-28
+https://docs.github.com/zh/rest?apiVersion=2022-11-28
+
 1. retrieves information about user:
   curl https://api.github.com/users/<USER-NAME>
   So, to list all public repos from a user, send a GET request to https://api.github.com/users/<USER-NAME>/repos, replacing <USER-NAME> with the actual user from whom you want to retrieve the repositories.
@@ -42,19 +45,27 @@
   curl https://api.github.com/users/<USER-NAME>/repos
   So, to list all public repos from a user, send a GET request to https://api.github.com/users/<USER-NAME>/repos, replacing <USER-NAME> with the actual user from whom you want to retrieve the repositories.
 
-3. list all public repositories belonging to an given organization:
+3. listing all public repositories belonging to an given organization:
   https://api.github.com/orgs/<ORGANIZATION-NAME>/repos
   For instance, to list repositories belonging to the Node.js organization, you'd do this:
   curl https://api.github.com/orgs/nodejs/repos
 
-4. list repositories for the authenticated user:
+4. listing repositories for the authenticated user:
   curl https://api.github.com/user/repos
   As you can see, it didn't work. The message says quite clearly that we need authentication. you'll first need an authentication token.
   Use the following template, replacing username with your user name and token with the value of the personal access token you just generated:
   curl -u username:token https://api.github.com/user/repos
 
-5. list repositories using GitHub's search API:
+5. listing repositories using GitHub's search API:
   The search API allows you to search for all kinds of GitHub artifacts using a versatile search syntax that allows for ordering, filtering, paging, and more.
+  
   Let's see an example:
   curl https://api.github.com/search/repositories?q=octokit+language:csharp
   The request above searches for repositories that contain "octokit" somewhere in their information and whose language is C#. 
+
+  Let's see another example:
+  curl https://api.github.com/search/repositories?q=node+in:name+language:javascript&sort=stars&order=desc
+  The request above performs a search that looks for repositories with the word "node" in their names and whose language is JavaScript. The results are to be sorted by the number of stars in descending order.
+  
+6. listing repositories using a wrapper Library written for your favorite programming language:
+  TODO
