@@ -1,2 +1,2 @@
-# test
+# hello-github
 MY FIRST REPOSITORY, JUST FOR TESTING!
