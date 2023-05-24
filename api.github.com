@@ -128,10 +128,10 @@ Further Reading => Have you tried these File Upload API Solutions?
 
 Collaborators
 #1) List Collaborators for a Repository.
-curl -X GET -u <UserName>:<Generated-Token>https://api.github.com/repos/<user-name>/<repo-name>/collaborators | grep -w login
+curl -X GET -u <UserName>:<Generated-Token> https://api.github.com/repos/<user-name>/<repo-name>/collaborators | grep -w login
 
 #2) Check if a user is in the Collaborator list.
-curl -X GET -u <UserName>:<Generated-Token>https://api.github.com/repos/<user-name>/<repo-name>/collaborators/<user-name-to-check>
+curl -X GET -u <UserName>:<Generated-Token> https://api.github.com/repos/<user-name>/<repo-name>/collaborators/<user-name-to-check>
 
 If the user is a part of collaborator, then there is no content displayed as output else the following message is displayed.
 {
@@ -140,15 +140,15 @@ If the user is a part of collaborator, then there is no content displayed as out
 }
 
 #3) Check user’s Permission.
-curl -X GET -u <UserName>:<Generated-Token>https://api.github.com/repos/<user-name>/<repo-name>/collaborators/<user-name-to-check–for-permission>/permission| grep -w permission
+curl -X GET -u <UserName>:<Generated-Token> https://api.github.com/repos/<user-name>/<repo-name>/collaborators/<user-name-to-check–for-permission>/permission| grep -w permission
 
 #4) Add user as Collaborator to the Repository.
-curl -X PUT -u <UserName>:<Generated-Token>https://api.github.com/repos/<user-name>/<repo-name-to-add-collaborator>/collaborators/<user-name-to-add-as-collaborator>
+curl -X PUT -u <UserName>:<Generated-Token> https://api.github.com/repos/<user-name>/<repo-name-to-add-collaborator>/collaborators/<user-name-to-add-as-collaborator>
 
 Post this, the invitee will need to accept the invitation to join as collaborator. If a user is already added as collaborator, then no content is displayed else the output is displayed.
 
 #5) Removing user as Collaborator.
-curl -X DELETE -u <UserName>:<Generated-Token>https://api.github.com/repos/<user-name>/<repo-name-to-remove-collaborator>/collaborators/<user-name-to-remove>
+curl -X DELETE -u <UserName>:<Generated-Token> https://api.github.com/repos/<user-name>/<repo-name-to-remove-collaborator>/collaborators/<user-name-to-remove>
 
 No content is displayed once the command is run successfully.
 
@@ -156,29 +156,209 @@ Organization
 Note: Creating Organizations is not provided by GitHub API.
 
 #1) List all organization accounts for a user.
-curl -X GET -u <UserName>:<Generated-Token>https://api.github.com/repos/user/orgs | grep -w login
+curl -X GET -u <UserName>:<Generated-Token> https://api.github.com/repos/user/orgs | grep -w login
 
 #2) Update an Organization.
-curl -X PATCH -u <UserName>:<Generated-Token>-d “{\”name\”: \”TeamVN\”,\”billing_email\”: \”vniranjan72@outlook.com\”,\”email\”: \”vniranjan72@outlook.com\”,\”location\”:\”Bangalore\”,\”\”description\”: \”Updating the organization details\”}”https://api.github.com/orgs/<Org-Name>
+curl -X PATCH -u <UserName>:<Generated-Token> -d "{\"name\": \"TeamVN\",\"billing_email\": \"vniranjan72@outlook.com\",\"email\": \"vniranjan72@outlook.com\",\"location\": \"Bangalore\",\"description\": \"Updating the organization details\"}" https://api.github.com/orgs/<Org-Name>
 
 Branches
 #1) List branches in a user repository. The command will list all the branches in a repository.
-curl -X GET -u <UserName>:<Generated-Token>https://api.github.com/repos/<user-name>/<repo-name>/branches | grep -w name
+curl -X GET -u <UserName>:<Generated-Token> https://api.github.com/repos/<user-name>/<repo-name>/branches | grep -w name
 
 #2) List all protected branches in a user repository.
-curl -X GET -u <UserName>:<Generated-Token>https://api.github.com/repos/<user-name>/<repo-name>/branches?protected=true | grep -w name
+curl -X GET -u <UserName>:<Generated-Token> https://api.github.com/repos/<user-name>/<repo-name>/branches?protected=true | grep -w name
 
 #3) List all un-protected branches in a user repository
-curl -X GET -u <UserName>:<Generated-Token>https://api.github.com/repos/<user-name>/<repo-name>/branches?protected=false | grep -w name
+curl -X GET -u <UserName>:<Generated-Token> https://api.github.com/repos/<user-name>/<repo-name>/branches?protected=false | grep -w name
 
 #4) Remove Branch Protection.
-curl -X DELETE -u <UserName>:<Generated-Token>https://api.github.com/repos/<user-name>/<repo-name>/branches/master/protection
+curl -X DELETE -u <UserName>:<Generated-Token> https://api.github.com/repos/<user-name>/<repo-name>/branches/master/protection
 
 Pull Requests
 #1) List Pull requests.
-curl -X GET -u <UserName>:<Generated-Token>https://api.github.com/repos/<user-name>/<repo-name>/pulls?state=open | grep -w title
+curl -X GET -u <UserName>:<Generated-Token> https://api.github.com/repos/<user-name>/<repo-name>/pulls?state=open | grep -w title
 
 Options for the state parameter are Open, Closed, All.
 
 #2) Create a Pull request.
-curl -X POST -u <UserName>:<Generated-Token>-d “{\”title\”:\”Great feature added\”,\”body\”: \”Please pull the great change made in to master branch\”,\”head\”: \”feature\”,\”base\”: \”master\”}” https://api.github.com/repos/<user-name>/<repo-name>/pulls
+curl -X POST -u <UserName>:<Generated-Token> -d "{\"title\": \"Great feature added\",\"body\": \"Please pull the great change made in to master branch\",\"head\": \"feature\",\"base\": \"master\"}" https://api.github.com/repos/<user-name>/<repo-name>/pulls
+
+#3) List the number of the Pull requests created.
+curl -X GET -u <UserName>:<Generated-Token> https://api.github.com/repos/<user-name>/<repo-name>/pulls?state=open | grep -w number
+
+#4) Update Pull request body or any other parameter (Maximum of 250 commits only).
+curl -X PATCH -u <UserName>:<Generated-Token> -d "{\"body\": \"Mandatory to pull the great change made in feature branch to master branch\"}" https://api.github.com/repos/<user-name>/<repo-name>/pulls/31
+
+#5) List Pull request commits.
+curl -X GET -u <UserName>:<Generated-Token> https://api.github.com/repos/<user-name>/<repo-name>/pulls/31/commits
+
+#6) List Pull request files (Maximum of 300 files only).
+curl -X GET -u <UserName>:<Generated-Token> https://api.github.com/repos/<user-name>/<repo-name>/pulls/31/files| grep -w filename
+
+#7) Merge Pull request.
+curl -X PUT -u <UserName>:<Generated-Token>-d "{\"commit_message\": \"Good Commit\"}" https://api.github.com/repos/<user-name>/<repo-name>/pulls/31/merge
+
+Response if merged
+{
+“sha”: “e5db2ce465f48ada4adfb571cca2d6cb859a53c6”,
+“merged”: true,
+“message”: “Pull Request successfully merged”
+}
+
+Response if pull request cannot be merged
+{
+“message”: “Pull Request is not mergeable”,
+“documentation_url”: “https://developer.github.com/v3/pulls/#merge-a-pull-request-merge-button”
+}
+
+Labels, Milestones & Issues
+Labels
+#1) List all labels in a repository.
+curl -X GET -u <UserName>:<Generated-Token> https://api.github.com/repos/<user-name>/<repo-name>/labels | grep -w name
+
+#2) List specific label in a repository.
+curl -X GET -u <UserName>:<Generated-Token> https://api.github.com/repos/<user-name>/<repo-name>/labels/bug
+
+#3) To create a label.
+curl -X POST -u <UserName>:<Generated-Token> -d "{\"name\": \"defect\",\"description\": \"To raise a defect\",\"color\": \"ff493b\"}" https://api.github.com/repos/<user-name>/<repo-name>/labels
+
+The hexadecimal color code for the color parameter can be set from Color-hex
+
+#4) Update label
+curl -X PATCH -u <UserName>:<Generated-Token> -d "{\"color\": \"255b89\"}" https://api.github.com/repos/<user-name>/<repo-name>/labels/defect
+
+#5) Delete label
+curl -X DELETE -u <UserName>:<Generated-Token> https://api.github.com/repos/vniranjan1972/Demo_Project_Repo_VN/labels/defect
+
+Issues
+#6) List a specific issue in a repository.
+curl -X GET -u <UserName>:<Generated-Token> https://api.github.com/repos/<user-name>/<repo-name>/issues/20 | grep -w title
+
+#7) List all issues in a repository.
+curl -X GET -u <UserName>:<Generated-Token> https://api.github.com/repos/<user-name>/<repo-name>/issues | grep -w title
+
+#8) Create an issue.
+curl -X POST -u <UserName>:<Generated-Token> -d "{\"title\": \"New welcome page\",\"body\": \"To design a new page\",\"labels\": [\"enhancement\"],\"milestone\": \"3\",\"assignees\": [\"<user-name1>\",\"<user-name2\"],\"state\": \"open\"}" https://api.github.com/repos/<user-name>/<repo-name>/issues
+
+In the above command, labels and assignees parameters are array of strings where multiple values can be provided. State parameter will have the value either open or closed.
+
+#9) Add a label to an issue.
+curl -X POST -u <UserName>:<Generated-Token> -d "{\"labels\": [\"enhancement\"]}" https://api.github.com/repos/<user-name>/<repo-name>/issues/30/labels
+
+#10) Edit an issue and update the parameters E.g, Labels to it.
+
+curl -X PATCH -u <UserName>:<Generated-Token> -d "{\"labels\": [\"bug\",\"enhancement\"]}" https://api.github.com/repos/<user-name>/<repo-name>/issues/30
+
+In the above command, update labels for the issue number 30.
+
+#11) Remove a label from a specific issue.
+curl -X DELETE -u <UserName>:<Generated-Token> https://api.github.com/repos/<user-name>/<repo-name>/issues/30/labels/bug
+
+#12) Remove ALL labels from a specific issue.
+curl -X DELETE -u <UserName>:<Generated-Token> https://api.github.com/repos/<user-name>/<repo-name>/issues/30/labels
+
+Milestones
+#13) List all Milestones.
+curl -X GET -u <UserName>:<Generated-Token> -d "{\"state\": [\"open\"]}" https://api.github.com/repos/<user-name>/<repo-name>/milestones | grep -w title
+
+#14) List details of a specific Milestone.
+curl -X GET -u <UserName>:<Generated-Token> https://api.github.com/repos/<user-name>/<repo-name>/milestones/1 | grep -w title
+
+#15) Create a Milestone.
+curl -X POST -u <UserName>:<Generated-Token> -d "{\"title\": \”R5\”,\”state\”: \”open\”,\”description\”: \”Track for milestone R5\”,\”due_on\”: \”2019-12-05T17:00:01Z\”}” https://api.github.com/repos/<user-name>/<repo-name>/milestones
+
+In the above command the due_on is a timestamp ISO 8601 in YYYY-MM-DDTHH:MM:SSZ format. More about this can be found @ ISO 8601
+
+#16) Update a Milestone.
+curl -X PATCH -u <UserName>:<Generated-Token> -d "{\"state\": \"closed\"}" https://api.github.com/repos/<user-name>/<repo-name>/milestones/3
+
+#17) Delete a Milestone.
+curl -X DELETE -u <UserName>:<Generated-Token> https://api.github.com/repos/<user-name>/<repo-name>/milestones/3
+
+Teams
+#1) List Teams in an organization.
+curl -X GET -u <UserName>:<Generated-Token https://api.github.com/orgs/<Org-Name>/teams| grep -w name
+
+List by team ID
+curl -X GET -u <UserName>:<Generated-Token> https://api.github.com/orgs/<Org-Name>/teams| grep -w id
+
+#2) List teams by user.
+curl -X GET -u <UserName>:<Generated-Token> https://api.github.com/user/teams | grep -w name
+
+#3) Create a Team, add members and add repository to the team.
+curl -X POST -u <UserName>:<Generated-Token> -d "{\"name\": \"<Team Name>\",\"description\": \"Enter brief description\",\"maintainers\": [\"<user-name>\"],\"repo_names\": [\"<Org-name>/<Repo-Name>\"]}" https://api.github.com/orgs/Demo-Proj-Org/teams
+
+#4) Edit team name and description.
+curl -X PATCH -u <user-name>:<Generated-Token> -d "{\"name\": \"New Team Name\",\"description\": \"Latest Description\"}" https://api.github.com/teams/<Team-Id>
+
+Team ID can be retrieved by running the command from step 1.
+
+#5) Add a repository to an existing team..
+curl -X PUT -u <user-name>:<Generated-Token> https://api.github.com/teams/<Team-Id>/repos/<Org-Name>/<repo-name>
+
+#6) Remove repository from a team.
+curl -X DELETE -u <user-name>:<Generated-Token> https://api.github.com/teams/<Team-Id/repos/<Org-Name>/<repo-name-to-be-deleted-from-team>
+
+#7) Delete a team.
+curl -X DELETE -u <UserName>:<Generated-Token> https://api.github.com/teams/<Team-Id>
+
+Search Repositories, Code, Issues
+The Search API allows to search for any item.
+#1) For Example, if you want to search all repositories owned by a particular user.
+curl -X GET https://api.github.com/search/repositories?q=user:<user-name> | grep -w "name"
+
+Required parameter is q that contains the search criteria consisting of keywords and qualifiers to limit the search in a specific area in Github.
+
+#2) Search all repositories owned by a particular user that contains the words V and Niranjan in README file
+curl -X GET https://api.github.com/search/repositories?q=V+Niranjan+in:readme+user:<user-name>| grep -w name
+
+#3) Search for a keyword in the content of a file. In the below example, search for the keyword ‘System’ and ‘addEmployee’ within a file in a repository owned by a user.
+curl -X GET https://api.github.com/search/code?q=System+addEmployee+in:file+language:java+repo:<user-name>/<repo-name> | grep -w name
+
+#4) Search for the keyword ‘welcome’ within open issues and label as enhancement.
+curl -X GET https://api.github.com/search/issues?q=welcome+label:enhancement+state:open+repo:<user-name>/<repo-name>| grep -w name
+
+#5) Search for the keyword ‘address’ within closed issues and label as enhancement.
+curl -X GET https://api.github.com/search/issues?q=address+label:enhancement+state:closed+repo:<user-name>/<repo-name> | grep -w name
+
+Releases
+#1) List releases in a repository by tag name and id.
+curl -X GET -u <UserName>:<Generated-Token> https://api.github.com/repos/<user-name>/<repo-name>/releases | grep -w tag_name
+curl -X GET -u <UserName>:<Generated-Token> https://api.github.com/repos/<user-name>/<repo-name>/releases | grep -w id
+
+#2) Get details of a single release.
+curl -X GET -u <UserName>:<Generated-Token> https://api.github.com/repos/<user-name>/<repo-name>/releases/<rel-id> | grep -w tag_name
+curl -X GET -u <UserName>:<Generated-Token> https://api.github.com/repos/<user-name>/<repo-name>/releases/<rel-id> | grep -w body
+curl -X GET -u <UserName>:<Generated-Token> https://api.github.com/repos/<user-name>/<repo-name>/releases/<rel-id> | grep -w name
+
+#3) Get details of the LATEST release.
+curl -X GET -u <UserName>:<Generated-Token> https://api.github.com/repos/<user-name>/<repo-name>/releases/latest| grep -w tag_name
+curl -X GET -u <UserName>:<Generated-Token> https://api.github.com/repos/<user-name>/<repo-name>/releases/latest| grep -w name
+curl -X GET -u <UserName>:<Generated-Token> https://api.github.com/repos/<user-name>/<repo-name>/releases/latest| grep -w body
+
+#4) Get release details by Tag.
+curl -X GET -u <UserName>:<Generated-Token> https://api.github.com/repos/<user-name>/<repo-name>/releases/tags/<Tag-Name>| grep -w name
+curl -X GET -u <UserName>:<Generated-Token> https://api.github.com/repos/<user-name>/<repo-name>/releases/tags/<Tag-Name>| grep -w body
+
+#5) Create a release.
+curl -X POST -u <UserName>:<Generated-Token> -d "{\"tag_name\": \"R3.0\",\"target_commitish\": \"master\",\"name\": \"Release 3.0\",\"body\": \"This is for Release 3.0 of the product\",\"draft\": "false",\"prerelease\": "false"}" https://api.github.com/repos/<user-name>/<repo-name/releases
+
+Note: In the command to create a release the parameters ‘draft’ and ‘prerelease’ takes Boolean values. Enter true or false without \”.
+
+The draft value false means the published release is created and for true it is a un-published release.
+Prerelease false means it is a full release. True value means it is a prerelease.
+
+#6) Edit or update the release.
+curl -X PATCH-u <UserName>:<Generated-Token> -d "{\"tag_name\": \"R3.1\"}" https://api.github.com/repos/<user-name>/<repo-name/releases/<rel-id>
+
+#7) Delete the release.
+curl -X DELETE-u <UserName>:<Generated-Token> https://api.github.com/repos/<user-name>/<repo-name/releases/<rel-id>
+
+#8) List assets for the release.
+curl -X DELETE-u <UserName>:<Generated-Token> https://api.github.com/repos/<user-name>/<repo-name/releases/<rel-id>/assets
+
+Conclusion
+In this GitHub REST API tutorial, we saw how REST API’s can be used for various actions to GET, PUT, POST, PATCH, DELETE data.
+The URL used for REST API’s to work directly with GitHub.com is https://api.github.com. Whereas, if the teams are using GitHub enterprise in their organization then the URL to use with REST API would be https://<GitHubServerName>/api/v3
+All the tutorials in this series so far concentrated on the usage of GitHub from a developer perspective along with the best practices of collaboration while working in a team for version control of various types of artifacts directly on GitHub and not locally.
+Our upcoming tutorial will focus on how a developer will work offline on a local repository cloned from GitHub using the Git Client interfaces like GitHub Desktop and TortoiseGit and push the changes back to the remote repository.
