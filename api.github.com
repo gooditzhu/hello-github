@@ -34,9 +34,19 @@
   "user_search_url": "https://api.github.com/search/users?q={query}{&page,per_page,sort,order}"
 }
 
-https://docs.github.com/en/rest?apiVersion=2022-11-28
-https://docs.github.com/zh/rest?apiVersion=2022-11-28
+References:
+1. https://docs.github.com/en/rest?apiVersion=2022-11-28
+2. https://docs.github.com/zh/rest?apiVersion=2022-11-28
+3. https://www.softwaretestinghelp.com/github-rest-api-tutorial
 
+REST APIs (Representational State Transfer) primarily use HTTP requests to do the following.
+
+GET – Retrieve the resource
+PUT/PATCH – Update resource
+POST – Create a resource
+DELETE – Delete resource
+
+Useage:
 1. retrieves information about user:
   curl https://api.github.com/users/<USER-NAME>
   So, to list all public repos from a user, send a GET request to https://api.github.com/users/<USER-NAME>/repos, replacing <USER-NAME> with the actual user from whom you want to retrieve the repositories.
@@ -71,3 +81,104 @@ https://docs.github.com/zh/rest?apiVersion=2022-11-28
   
 6. listing repositories using a wrapper Library written for your favorite programming language:
   TODO
+
+Repository
+The REST API’s examples shown here are run on the Windows machine. This section will showcase some of the GitHub Repository operations.
+
+#1) To list Public Repositories for a user, run the following command in a single line.
+curl -X GET -u <UserName>:<Generated-Token> https://api.github.com/users/<user-name>/repos | grep -w clone_url
+
+#2) To list Public Repositories under an organization.
+curl -X GET -u <UserName>:<Generated-Token> https://api.github.com/orgs/<Org-Name>/repos | grep -w clone_url
+
+#3) Create a Personal Repository.
+curl -X POST -u <UserName>:<Generated-Token> https://api.github.com/user/repos -d "{\"name\": \"Demo_Repo\"}”
+In the above command name is a parameter. Let’s look at some other parameters that can be used while creating personal user repositories.
+
+curl -X POST -u <UserName>:<Generated-Token> https://api.github.com/user/repos -d "{\"name\": \"Demo_Repo\",\"description\": \"This is first repo through API\",\"homepage\": \"https://github.com\",\"public\": \"true\",\"has_issues\": \"true\",\"has_projects\": \"true\",\"has_wiki\": \"true\"}"
+In the above command, name, description, homepage, public, has_projects, has_wiki are all parameters that take a string value and are enclosed in \". Also note that there is a SPACE between : and \
+
+For Example, public parameter makes the repo public. The command also enables issues, projects, wikis to be created.
+
+#4) Rename the Repository.
+curl -X POST -u <UserName>:<Generated-Token> -X PATCH -d "{\"name\": \"<NewRepoName>\"}" https://api.github.com/repos/<user-name>/<OldRepoName>, or:
+curl -u <UserName>:<Generated-Token> -X PATCH -d "{\"name\": \"<NewRepoName>\"}" https://api.github.com/repos/<user-name>/<OldRepoName>
+
+#5) Update the has_wiki parameter in the repository and set the value to false.
+curl -u <UserName>:<Generated-Token> -X PATCH -d "{\"has_wiki\": \"false\"}" https://api.github.com/repos/user-name/<reponame>
+
+#6) Delete the Repository.
+curl -X DELETE -u <UserName>:<Generated-Token> https://api.github.com/repos/<user-name>/<reponame>
+
+#7) Create a Repository in an Organization.
+curl -X POST -u <UserName>:<Generated-Token> https://api.github.com/orgs/<Enter-Org-name>/repos"{\"name\": \"Demo_Repo_In_Org\",\"description\": \"This is first repo in org through API\",\"homepage\": \"https://github.com\",\"public\": \"true\",\"has_issues\": \"true\",\"has_projects\": \"true\",\"has_wiki\": \"true\"}"
+
+#8) List Forks for a Repository.
+curl -X GET -u <UserName>:<Generated-Token>https://api.github.com/repos/<user-name>/<User-Repo>/forks | grep -w html_url
+
+The above command will list the URL to browse the forked repo. The same can be seen under the user repository and ‘Insights TAB =>Forks’.
+curl -X GET -u <UserName>:<Generated-Token>https://api.github.com/repos/<user-name>/<User-Repo>/forks | grep -w clone_url
+
+The above command will list the URL to clone the forked repo.
+
+#9) Fork a Repository in the organization.
+curl -X POST -u <UserName>:<Generated-Token> -d "{\"organization\": \"<Org-Name-To-Fork>\"}" https://api.github.com/repos/<user-name>/<repo-name>/forks
+
+Further Reading => Have you tried these File Upload API Solutions?
+
+Collaborators
+#1) List Collaborators for a Repository.
+curl -X GET -u <UserName>:<Generated-Token>https://api.github.com/repos/<user-name>/<repo-name>/collaborators | grep -w login
+
+#2) Check if a user is in the Collaborator list.
+curl -X GET -u <UserName>:<Generated-Token>https://api.github.com/repos/<user-name>/<repo-name>/collaborators/<user-name-to-check>
+
+If the user is a part of collaborator, then there is no content displayed as output else the following message is displayed.
+{
+“message”: “<user-name>is not a user”,
+“documentation_url”: “https://developer.github.com/v3/repos/collaborators/#get”
+}
+
+#3) Check user’s Permission.
+curl -X GET -u <UserName>:<Generated-Token>https://api.github.com/repos/<user-name>/<repo-name>/collaborators/<user-name-to-check–for-permission>/permission| grep -w permission
+
+#4) Add user as Collaborator to the Repository.
+curl -X PUT -u <UserName>:<Generated-Token>https://api.github.com/repos/<user-name>/<repo-name-to-add-collaborator>/collaborators/<user-name-to-add-as-collaborator>
+
+Post this, the invitee will need to accept the invitation to join as collaborator. If a user is already added as collaborator, then no content is displayed else the output is displayed.
+
+#5) Removing user as Collaborator.
+curl -X DELETE -u <UserName>:<Generated-Token>https://api.github.com/repos/<user-name>/<repo-name-to-remove-collaborator>/collaborators/<user-name-to-remove>
+
+No content is displayed once the command is run successfully.
+
+Organization
+Note: Creating Organizations is not provided by GitHub API.
+
+#1) List all organization accounts for a user.
+curl -X GET -u <UserName>:<Generated-Token>https://api.github.com/repos/user/orgs | grep -w login
+
+#2) Update an Organization.
+curl -X PATCH -u <UserName>:<Generated-Token>-d “{\”name\”: \”TeamVN\”,\”billing_email\”: \”vniranjan72@outlook.com\”,\”email\”: \”vniranjan72@outlook.com\”,\”location\”:\”Bangalore\”,\”\”description\”: \”Updating the organization details\”}”https://api.github.com/orgs/<Org-Name>
+
+Branches
+#1) List branches in a user repository. The command will list all the branches in a repository.
+curl -X GET -u <UserName>:<Generated-Token>https://api.github.com/repos/<user-name>/<repo-name>/branches | grep -w name
+
+#2) List all protected branches in a user repository.
+curl -X GET -u <UserName>:<Generated-Token>https://api.github.com/repos/<user-name>/<repo-name>/branches?protected=true | grep -w name
+
+#3) List all un-protected branches in a user repository
+curl -X GET -u <UserName>:<Generated-Token>https://api.github.com/repos/<user-name>/<repo-name>/branches?protected=false | grep -w name
+
+#4) Remove Branch Protection.
+curl -X DELETE -u <UserName>:<Generated-Token>https://api.github.com/repos/<user-name>/<repo-name>/branches/master/protection
+
+Pull Requests
+#1) List Pull requests.
+curl -X GET -u <UserName>:<Generated-Token>https://api.github.com/repos/<user-name>/<repo-name>/pulls?state=open | grep -w title
+
+Options for the state parameter are Open, Closed, All.
+
+#2) Create a Pull request.
+curl -X POST -u <UserName>:<Generated-Token>-d “{\”title\”:\”Great feature added\”,\”body\”: \”Please pull the great change made in to master branch\”,\”head\”: \”feature\”,\”base\”: \”master\”}” https://api.github.com/repos/<user-name>/<repo-name>/pulls
