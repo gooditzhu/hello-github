@@ -38,8 +38,11 @@ References:
 1. https://docs.github.com/en/rest?apiVersion=2022-11-28
 2. https://docs.github.com/zh/rest?apiVersion=2022-11-28
 3. https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token
-4. https://www.softwaretestinghelp.com/github-rest-api-tutorial
-5. https://docs.apify.com/sdk/python/docs/guides/scrapy
+4. https://docs.github.com/en/rest/repos/contents?apiVersion=2022-11-28
+   https://docs.github.com/en/rest/repos/contents?apiVersion=2022-11-28#create-or-update-file-contents
+5. https://docs.github.com/en/enterprise-server@3.8/search-github/searching-on-github/searching-code
+6. https://www.softwaretestinghelp.com/github-rest-api-tutorial
+7. https://docs.apify.com/sdk/python/docs/guides/scrapy
 
 REST APIs (Representational State Transfer) primarily use HTTP requests to do the following.
 
@@ -47,6 +50,24 @@ GET – Retrieve the resource
 PUT/PATCH – Update resource
 POST – Create a resource
 DELETE – Delete resource
+
+通过GitHub的API获取代码:
+curl -X GET -u gooditzhu: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 "https://api.github.com/search/code?q=language:cpp&per_page=100&page=10"
+通过循环读取对应的url就可以取得所有文件内容。库内其他文件或目录的获取方式就在contents/后面加上对于的路径，
+content属性为源码的base64编码，去掉'\n'在用base64方式解码就取得文件源码。
+
+curl -L -H "Accept: application/vnd.github+json" -H "Authorization: Bearer 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" -H "X-GitHub-Api-Version: 2022-11-28" https://api.github.com/repos/gooditzhu/hello-github/contents/images/README.md
+curl -u gooditzhu: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 https://api.github.com/repos/gooditzhu/hello-github/contents/images
+curl -u gooditzhu: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 https://api.github.com/repos/gooditzhu/hello-github/contents/images/README.md
+
+通过GitHub的API获取仓库:
+curl -X GET -u gooditzhu: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 "https://api.github.com/search/repositories?q=language:cpp&per_page=100&page=10"
+通过循环读取对应的html_url或者svn_url就可以取得所有文件内容。库内其他文件或目录的获取方式就在contents/后面加上对于的路径，
+
+curl -L -H "Accept: application/vnd.github+json" -H "Authorization: Bearer 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" -H "X-GitHub-Api-Version: 2022-11-28" https://api.github.com/repos/gooditzhu/hello-github/tarball/master -o xxxxxxxxxx.tar.gz, or:
+curl -L -u gooditzhu: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 https://api.github.com/repos/gooditzhu/hello-github/tarball/master -o xxxxxxxxxx.tar.gz
+curl -L -H "Accept: application/vnd.github+json" -H "Authorization: Bearer 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" -H "X-GitHub-Api-Version: 2022-11-28" https://api.github.com/repos/gooditzhu/hello-github/zipball/master -o xxxxxxxxxx.zip, or:
+curl -L -u gooditzhu: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 https://api.github.com/repos/gooditzhu/hello-github/zipball/master -o xxxxxxxxxx.zip
 
 Useage:
 1. retrieves information about user:
@@ -68,8 +89,8 @@ Useage:
   Use the following template, replacing username with your user name and token with the value of the personal access token you just generated:
   curl -u username:token https://api.github.com/user/repos
   Let's see an example:
-  curl -u gooditzhu:ghp_xxxxxx https://api.github.com/user/repos, or:
-  curl -i -H "Authorization: token ghp_xxxxxx" https://api.github.com/user/repos
+  curl -u gooditzhu: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 https://api.github.com/user/repos, or:
+  curl -i -H "Authorization: token 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" https://api.github.com/user/repos
 
 5. listing repositories using GitHub's search API:
   The search API allows you to search for all kinds of GitHub artifacts using a versatile search syntax that allows for ordering, filtering, paging, and more.
