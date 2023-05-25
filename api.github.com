@@ -37,7 +37,9 @@
 References:
 1. https://docs.github.com/en/rest?apiVersion=2022-11-28
 2. https://docs.github.com/zh/rest?apiVersion=2022-11-28
-3. https://www.softwaretestinghelp.com/github-rest-api-tutorial
+3. https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token
+4. https://www.softwaretestinghelp.com/github-rest-api-tutorial
+5. https://docs.apify.com/sdk/python/docs/guides/scrapy
 
 REST APIs (Representational State Transfer) primarily use HTTP requests to do the following.
 
@@ -66,19 +68,20 @@ Useage:
   Use the following template, replacing username with your user name and token with the value of the personal access token you just generated:
   curl -u username:token https://api.github.com/user/repos
   Let's see an example:
-  curl -u gooditzhu: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 https://api.github.com/user/repos
+  curl -u gooditzhu:ghp_xxxxxx https://api.github.com/user/repos, or:
+  curl -i -H "Authorization: token ghp_xxxxxx" https://api.github.com/user/repos
 
 5. listing repositories using GitHub's search API:
   The search API allows you to search for all kinds of GitHub artifacts using a versatile search syntax that allows for ordering, filtering, paging, and more.
-  
+
   Let's see an example:
   curl https://api.github.com/search/repositories?q=octokit+language:csharp
-  The request above searches for repositories that contain "octokit" somewhere in their information and whose language is C#. 
+  The request above searches for repositories that contain "octokit" somewhere in their information and whose language is C#.
 
   Let's see another example:
   curl https://api.github.com/search/repositories?q=node+in:name+language:javascript&sort=stars&order=desc
   The request above performs a search that looks for repositories with the word "node" in their names and whose language is JavaScript. The results are to be sorted by the number of stars in descending order.
-  
+
 6. listing repositories using a wrapper Library written for your favorite programming language:
   TODO
 
@@ -362,3 +365,4 @@ In this GitHub REST API tutorial, we saw how REST API’s can be used for variou
 The URL used for REST API’s to work directly with GitHub.com is https://api.github.com. Whereas, if the teams are using GitHub enterprise in their organization then the URL to use with REST API would be https://<GitHubServerName>/api/v3
 All the tutorials in this series so far concentrated on the usage of GitHub from a developer perspective along with the best practices of collaboration while working in a team for version control of various types of artifacts directly on GitHub and not locally.
 Our upcoming tutorial will focus on how a developer will work offline on a local repository cloned from GitHub using the Git Client interfaces like GitHub Desktop and TortoiseGit and push the changes back to the remote repository.
+
